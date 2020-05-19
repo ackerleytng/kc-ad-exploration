@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  caddy:
+    image: caddy:alpine
+    volumes:
+      - ./compose/caddy/Caddyfile:/tmp/Caddyfile:ro
+    ports:
+      - 80:80
+      - 443:443
+    entrypoint: caddy run --environ --adapter caddyfile --config /tmp/Caddyfile
+    networks:
+      default:
+        aliases:
+          - caddy.localhost
+          - keycloak.localhost
+
+  keycloak:
+    image: jboss/keycloak:10.0.1
+    depends_on:
+      - caddy
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: keycloak-postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_SCHEMA: public
+      DB_PASSWORD: password
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: password
+      PROXY_ADDRESS_FORWARDING: "true"
+      KEYCLOAK_HOME: /opt/jboss/keycloak
+
+  keycloak-postgres:
+    image: postgres:12
+    volumes:
+      - keycloak-postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+
+volumes:
+  keycloak-postgres:
