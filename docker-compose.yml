@@ -14,11 +14,15 @@ services:
         aliases:
           - caddy.localhost
           - keycloak.localhost
+          - foo.localhost
 
   keycloak:
     image: jboss/keycloak:10.0.1
     depends_on:
       - caddy
+    volumes:
+      - ./compose/keycloak/setup.sh:/setup.sh:ro
+      - ./compose/keycloak/start.sh:/start.sh:ro
     environment:
       DB_VENDOR: POSTGRES
       DB_ADDR: keycloak-postgres
@@ -30,6 +34,7 @@ services:
       KEYCLOAK_PASSWORD: password
       PROXY_ADDRESS_FORWARDING: "true"
       KEYCLOAK_HOME: /opt/jboss/keycloak
+    entrypoint: /start.sh
 
   keycloak-postgres:
     image: postgres:12
@@ -39,6 +44,22 @@ services:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
+
+  foo:
+    image: containous/whoami
+    depends_on:
+      - foo-gatekeeper
+
+  foo-gatekeeper:
+    image: alpine:3.8
+    volumes:
+      - ./compose/gatekeeper/:/gatekeeper/:ro
+      - ./compose/gatekeeper/foo-config.yml:/tmp/config.yml:ro
+    entrypoint: /gatekeeper/start.sh read write
+    depends_on:
+      - keycloak
+    environment:
+      CLIENT_NAME: foo
 
 volumes:
   keycloak-postgres:

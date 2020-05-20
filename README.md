@@ -34,6 +34,7 @@ And then Windows will automatically reboot, then we add users and groups
    + UUID LDAP attribute: objectGUID
    + User Object Classes: person, organizationalPerson, user
    + Connection URL: ldap://172.17.0.1:3389
+   + Users DN: CN=users,DC=vdom,DC=local
    + Bind Type: simple
    + Enable StartTLS: Off
    + Bind DN: userzero@vdom.local
