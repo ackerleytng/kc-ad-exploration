@@ -1,0 +1,33 @@
+digraph {
+    stones -> ruby
+    stones -> sapphire
+
+    ruby -> user0
+    ruby -> user1
+
+    sapphire -> user2
+    sapphire -> user3
+
+    stones [label="Stones",shape=rectangle]
+    ruby [label="Ruby",shape=rectangle]
+    sapphire [label="Sapphire",shape=rectangle]
+
+    user0 [label="User Zero"]
+    user1 [label="User One"]
+    user2 [label="User Two"]
+    user3 [label="User Three"]
+
+    spacing [style=invisible]
+
+    node [fontsize=10]
+    subgraph cluster_key {
+        label="Legend"
+        {
+            rank = same
+            groups
+            users
+        }
+        groups [label="Group",shape=rectangle]
+        users [label="User"]
+    }
+}

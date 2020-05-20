@@ -18,6 +18,10 @@ And then Windows will automatically reboot, then we add users and groups
 ./vagrant-ssh.sh -c 'C:\vagrant\provision-01-add-users-groups.ps1'
 ```
 
+The provisioned users have this structure
+
+![structure](./provisioned-ad-structure.svg)
+
 ## Adding User Federation in Keycloak
 
 1. Go to User Federation
