@@ -1,51 +1,81 @@
 # --------------------------------------------------------
-#   Add Ruby group and User Zero, User One
+#   Add special user for Keycloak
 # --------------------------------------------------------
 
-New-ADGroup -Name "Ruby" -SamAccountName Ruby -GroupCategory Security -GroupScope Global -DisplayName "Ruby" -Path "CN=Users,DC=vdom,DC=local"
-
-New-ADUser -Name "User Zero" -GivenName "User" -Surname "Zero" -SamAccountName "userzero" -UserPrincipalName "userzero@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
-
-Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Ruby,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=User Zero,CN=Users,DC=vdom,DC=local")
-
-New-ADUser -Name "User One" -GivenName "User" -Surname "One" -SamAccountName "userone" -UserPrincipalName "userone@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
-
-Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Ruby,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=User One,CN=Users,DC=vdom,DC=local")
+New-ADUser -Name "Keycloak" -GivenName "Keycloak" -Surname "Keycloak" -SamAccountName "keycloak" -UserPrincipalName "keycloak@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
 
 # --------------------------------------------------------
-#   Add Sapphire group and User Two, User Three
+#   Add Users
 # --------------------------------------------------------
 
-New-ADGroup -Name "Sapphire" -SamAccountName Sapphire -GroupCategory Security -GroupScope Global -DisplayName "Sapphire" -Path "CN=Users,DC=vdom,DC=local"
-
-New-ADUser -Name "User Two" -GivenName "User" -Surname "Two" -SamAccountName "usertwo" -UserPrincipalName "usertwo@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
-
-Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Sapphire,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=User Two,CN=Users,DC=vdom,DC=local")
-
-New-ADUser -Name "User Three" -GivenName "User" -Surname "Three" -SamAccountName "userthree" -UserPrincipalName "userthree@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
-
-Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Sapphire,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=User Three,CN=Users,DC=vdom,DC=local")
+New-ADUser -Name "Zack Doe" -GivenName "Zack" -Surname "Doe" -SamAccountName "zackdoe" -UserPrincipalName "zackdoe@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Alice Moe" -GivenName "Alice" -Surname "Moe" -SamAccountName "alicemoe" -UserPrincipalName "alicemoe@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Bob Toe" -GivenName "Bob" -Surname "Toe" -SamAccountName "bobtoe" -UserPrincipalName "bobtoe@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "Charlie Zoe" -GivenName "Charlie" -Surname "Zoe" -SamAccountName "charliezoe" -UserPrincipalName "charliezoe@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
+New-ADUser -Name "David Hoe" -GivenName "David" -Surname "Hoe" -SamAccountName "davidhoe" -UserPrincipalName "davidhoe@vdom.local" -Path "CN=Users,DC=vdom,DC=local" -AccountPassword $(ConvertTo-SecureString 'P@ssword123' -AsPlainText -Force) -Enabled $true
 
 # --------------------------------------------------------
-#   Add Stones group and add Ruby, Sapphire as members
+#   Add User Groups
 # --------------------------------------------------------
 
-New-ADGroup -Name "Stones" -SamAccountName Stones -GroupCategory Security -GroupScope Global -DisplayName "Stones" -Path "CN=Users,DC=vdom,DC=local"
-
-Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Stones,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=Sapphire,CN=Users,DC=vdom,DC=local")
-
-Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Stones,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=Ruby,CN=Users,DC=vdom,DC=local")
+New-ADGroup -Name "Devs" -SamAccountName "Devs" -GroupCategory Security -GroupScope Global -DisplayName "Devs" -Path "CN=Users,DC=vdom,DC=local"
+New-ADGroup -Name "Appdev" -SamAccountName "Appdev" -GroupCategory Security -GroupScope Global -DisplayName "Appdev" -Path "CN=Users,DC=vdom,DC=local"
+New-ADGroup -Name "Security" -SamAccountName "Security" -GroupCategory Security -GroupScope Global -DisplayName "Security" -Path "CN=Users,DC=vdom,DC=local"
 
 # --------------------------------------------------------
-#   Add User Three and User One as members of group Odd
+#   Setup User Group Hierarchy
 # --------------------------------------------------------
 
-New-ADGroup -Name "Odd" -SamAccountName Odd -GroupCategory Security -GroupScope Global -DisplayName "Odd" -Path "CN=Users,DC=vdom,DC=local"
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Devs,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=Appdev,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Devs,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=Security,CN=Users,DC=vdom,DC=local")
 
-Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Odd,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=User One,CN=Users,DC=vdom,DC=local")
+# --------------------------------------------------------
+#   Assign users to groups
+# --------------------------------------------------------
 
-Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Odd,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=User Three,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Devs,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=Zack Doe,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Security,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=Alice Moe,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Security,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=Bob Toe,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Appdev,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=Charlie Zoe,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=Appdev,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=David Hoe,CN=Users,DC=vdom,DC=local")
 
+# --------------------------------------------------------
+#   Create fw_rule permissions
+# --------------------------------------------------------
 
-# To list all users
-# Get-ADUser -LDAPFilter '(name=*)'
+New-ADGroup -Name "fw_rule:read" -SamAccountName "fw_rule__read" -GroupCategory Security -GroupScope Global -DisplayName "fw_rule:read" -Path "CN=Users,DC=vdom,DC=local"
+New-ADGroup -Name "fw_rule:approve" -SamAccountName "fw_rule__approve" -GroupCategory Security -GroupScope Global -DisplayName "fw_rule:approve" -Path "CN=Users,DC=vdom,DC=local"
+New-ADGroup -Name "fw_rule:update" -SamAccountName "fw_rule__update" -GroupCategory Security -GroupScope Global -DisplayName "fw_rule:update" -Path "CN=Users,DC=vdom,DC=local"
+New-ADGroup -Name "fw_rule:create" -SamAccountName "fw_rule__create" -GroupCategory Security -GroupScope Global -DisplayName "fw_rule:create" -Path "CN=Users,DC=vdom,DC=local"
+New-ADGroup -Name "fw_rule:delete" -SamAccountName "fw_rule__delete" -GroupCategory Security -GroupScope Global -DisplayName "fw_rule:delete" -Path "CN=Users,DC=vdom,DC=local"
+
+# --------------------------------------------------------
+#   Create fw_rule roles
+# --------------------------------------------------------
+
+New-ADGroup -Name "fw_rule:reviewer" -SamAccountName "fw_rule__reviewer" -GroupCategory Security -GroupScope Global -DisplayName "fw_rule:reviewer" -Path "CN=Users,DC=vdom,DC=local"
+New-ADGroup -Name "fw_rule:approver" -SamAccountName "fw_rule__approver" -GroupCategory Security -GroupScope Global -DisplayName "fw_rule:approver" -Path "CN=Users,DC=vdom,DC=local"
+New-ADGroup -Name "fw_rule:changer" -SamAccountName "fw_rule__changer" -GroupCategory Security -GroupScope Global -DisplayName "fw_rule:changer" -Path "CN=Users,DC=vdom,DC=local"
+
+# --------------------------------------------------------
+#   Group permissions into roles
+# --------------------------------------------------------
+
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:read,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=fw_rule:reviewer,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:read,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=fw_rule:approver,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:read,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=fw_rule:changer,CN=Users,DC=vdom,DC=local")
+
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:approve,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=fw_rule:approver,CN=Users,DC=vdom,DC=local")
+
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:update,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=fw_rule:changer,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:create,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=fw_rule:changer,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:delete,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=fw_rule:changer,CN=Users,DC=vdom,DC=local")
+
+# --------------------------------------------------------
+#   Assign roles to users or groups
+# --------------------------------------------------------
+
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:changer,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=David Hoe,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:approver,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=Charlie Zoe,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:approver,CN=Users,DC=vdom,DC=local") -Members $(Get-ADUser -Identity "CN=Zack Doe,CN=Users,DC=vdom,DC=local")
+Add-ADGroupMember -Identity $(Get-ADGroup -Identity "CN=fw_rule:reviewer,CN=Users,DC=vdom,DC=local") -Members $(Get-ADGroup -Identity "CN=Devs,CN=Users,DC=vdom,DC=local")

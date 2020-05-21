@@ -1,38 +1,83 @@
-digraph {
-    stones -> ruby
-    stones -> sapphire
+digraph g {
+    newrank=true
 
-    ruby -> user0
-    ruby -> user1
+    subgraph cluster_0 {
+        label="Users"
 
-    sapphire -> user2
-    sapphire -> user3
+        devs [label="Devs",shape=rectangle]
+        security [label="Security",shape=rectangle]
+        appdev [label="Appdev",shape=rectangle]
 
-    stones [label="Stones",shape=rectangle]
-    ruby [label="Ruby",shape=rectangle]
-    sapphire [label="Sapphire",shape=rectangle]
+        user0 [label="Alice"]
+        user1 [label="Bob"]
+        user2 [label="Charlie"]
+        user3 [label="David"]
+        user4 [label="Zack"]
 
-    odd [label="Odd",shape=rectangle]
+        devs -> security
+        devs -> appdev
+        devs -> user4
 
-    odd -> user1
-    odd -> user3
+        security -> user0
+        security -> user1
 
-    programming_languages [label="Programming\nLanguages",shape=rectangle,width=2]
+        appdev -> user2
+        appdev -> user3
 
-    programming_languages -> ruby [label="Groups with multiple parents\nallowed in AD\nbut not in Keycloak",style=dashed]
+        {
+            rank=same
+            user4
+            security
+            appdev
+        }
+    }
 
-    user0 [label="User Zero"]
-    user1 [label="User One"]
-    user2 [label="User Two"]
-    user3 [label="User Three"]
+    subgraph cluster_1 {
+        label="fw_rule"
 
-    spacing [style=invisible]
+        fwr_approve [label="fw_rule:approve",shape=rectangle,width=1.8]
+        fwr_create [label="fw_rule:create",shape=rectangle,width=1.8]
+        fwr_read [label="fw_rule:read",shape=rectangle,width=1.8]
+        fwr_update [label="fw_rule:update",shape=rectangle,width=1.8]
+        fwr_delete [label="fw_rule:delete",shape=rectangle,width=1.8]
 
-    node [fontsize=10]
+        fwr_approver [label="fw_rule:approver",shape=rectangle,width=1.8]
+        fwr_changer [label="fw_rule:changer",shape=rectangle,width=1.8]
+        fwr_reviewer [label="fw_rule:reviewer",shape=rectangle,width=1.8]
+
+        fwr_approve -> fwr_approver
+        fwr_read -> fwr_approver
+
+        fwr_create -> fwr_changer
+        fwr_read -> fwr_changer
+        fwr_update -> fwr_changer
+        fwr_delete -> fwr_changer
+
+        fwr_read -> fwr_reviewer
+
+        fwr_reviewer -> devs
+        fwr_approver -> user2
+        fwr_approver -> user4
+
+        fwr_changer -> user3
+    }
+
+    {
+        rank=same
+        fwr_approve
+        fwr_create
+        fwr_read
+        fwr_update
+        fwr_delete
+
+        devs
+    }
+
     subgraph cluster_key {
+        node [fontsize=10]
         label="Legend"
         {
-            rank = same
+            rank=same
             groups
             users
         }
