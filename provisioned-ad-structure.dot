@@ -12,6 +12,15 @@ digraph {
     ruby [label="Ruby",shape=rectangle]
     sapphire [label="Sapphire",shape=rectangle]
 
+    odd [label="Odd",shape=rectangle]
+
+    odd -> user1
+    odd -> user3
+
+    programming_languages [label="Programming\nLanguages",shape=rectangle,width=2]
+
+    programming_languages -> ruby [label="Groups with multiple parents\nallowed in AD\nbut not in Keycloak",style=dashed]
+
     user0 [label="User Zero"]
     user1 [label="User One"]
     user2 [label="User Two"]
