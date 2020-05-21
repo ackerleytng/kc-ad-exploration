@@ -35,15 +35,15 @@ digraph g {
     subgraph cluster_1 {
         label="fw_rule"
 
-        fwr_approve [label="fw_rule:approve",shape=rectangle,width=1.8]
-        fwr_create [label="fw_rule:create",shape=rectangle,width=1.8]
-        fwr_read [label="fw_rule:read",shape=rectangle,width=1.8]
-        fwr_update [label="fw_rule:update",shape=rectangle,width=1.8]
-        fwr_delete [label="fw_rule:delete",shape=rectangle,width=1.8]
+        fwr_approve [label="fw_rule:approve",shape=rectangle,width=1.8,fillcolor=beige,style=filled]
+        fwr_create [label="fw_rule:create",shape=rectangle,width=1.8,fillcolor=beige,style=filled]
+        fwr_read [label="fw_rule:read",shape=rectangle,width=1.8,fillcolor=beige,style=filled]
+        fwr_update [label="fw_rule:update",shape=rectangle,width=1.8,fillcolor=beige,style=filled]
+        fwr_delete [label="fw_rule:delete",shape=rectangle,width=1.8,fillcolor=beige,style=filled]
 
-        fwr_approver [label="fw_rule:approver",shape=rectangle,width=1.8]
-        fwr_changer [label="fw_rule:changer",shape=rectangle,width=1.8]
-        fwr_reviewer [label="fw_rule:reviewer",shape=rectangle,width=1.8]
+        fwr_approver [label="fw_rule:approver",shape=rectangle,width=1.8,fillcolor=grey,style=filled]
+        fwr_changer [label="fw_rule:changer",shape=rectangle,width=1.8,fillcolor=grey,style=filled]
+        fwr_reviewer [label="fw_rule:reviewer",shape=rectangle,width=1.8,fillcolor=grey,style=filled]
 
         fwr_approve -> fwr_approver
         fwr_read -> fwr_approver
@@ -83,5 +83,7 @@ digraph g {
         }
         groups [label="Group",shape=rectangle]
         users [label="User"]
+        permissions [label="Permissions",shape=rectangle,fillcolor=beige,style=filled]
+        roles [label="Roles",shape=rectangle,fillcolor=grey,style=filled]
     }
 }
