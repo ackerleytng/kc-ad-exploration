@@ -2,7 +2,7 @@ digraph g {
     newrank=true
 
     subgraph cluster_0 {
-        label="Users"
+        label="Organization Structure"
 
         devs [label="Devs",shape=rectangle]
         security [label="Security",shape=rectangle]
@@ -74,16 +74,25 @@ digraph g {
     }
 
     subgraph cluster_key {
-        node [fontsize=10]
+        node [fontsize=10,width=1.5]
         label="Legend"
-        {
-            rank=same
-            groups
-            users
+
+        subgraph cluster_org_structure {
+            label="OU=Organization Structure"
+            groups [label="Group",shape=rectangle]
+            users [label="User"]
         }
-        groups [label="Group",shape=rectangle]
-        users [label="User"]
-        permissions [label="Permissions",shape=rectangle,fillcolor=beige,style=filled]
-        roles [label="Roles",shape=rectangle,fillcolor=grey,style=filled]
+        subgraph cluster_permissions {
+            label="OU=Permissions"
+            permissions [label="Permissions",shape=rectangle,fillcolor=beige,style=filled]
+        }
+        subgraph cluster_roles {
+            label="OU=Roles"
+            roles [label="Roles",shape=rectangle,fillcolor=grey,style=filled]
+        }
+
+        // Alignment
+        users -> roles [style=invis]
+        groups -> permissions [style=invis]
     }
 }
